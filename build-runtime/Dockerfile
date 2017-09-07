@@ -1,0 +1,31 @@
+# build stableperl and required modules for App
+# example: docker build -t runtime-builder:1.0 .
+
+FROM perlbrew-base:1.0
+
+MAINTAINER "Michael Fung <hkuser2001@gmail.com>"
+
+ENV DEBIAN_FRONTEND noninteractive
+
+ENV HOME /root
+ENV PERLBREW_ROOT /usr/local/perlbrew
+ENV PERLBREW_HOME /root/.perlbrew
+ENV PATH /usr/local/perlbrew/bin:$PATH
+
+# all require perl modules in cpanfile
+WORKDIR /
+COPY cpanfile /
+COPY stableperl-5.22.0-1.001.tar.gz /
+
+# install required packages and build perl modules
+RUN apt-get update \
+	&& apt-get install -y libev4 libev-dev libffi6 libffi-dev \
+	&& apt-get install -y libzmq5 libzmq3-dev
+
+# build stableperl
+RUN	perlbrew install -j 4 --64int /stableperl-5.22.0-1.001.tar.gz
+
+# install perl modules	
+RUN perlbrew use 5.22.0-1.001 \
+	&& perlbrew install-cpanm \
+	&& cpanm --installdeps . -M https://cpan.metacpan.org
