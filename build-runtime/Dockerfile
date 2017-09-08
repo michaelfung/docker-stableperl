@@ -8,9 +8,8 @@ MAINTAINER "Michael Fung <hkuser2001@gmail.com>"
 ENV DEBIAN_FRONTEND noninteractive
 
 ENV HOME /root
-ENV PERLBREW_ROOT /usr/local/perlbrew
-ENV PERLBREW_HOME /root/.perlbrew
-ENV PATH /usr/local/perlbrew/bin:$PATH
+#ENV PERLBREW_HOME /root/.perlbrew
+#ENV PATH /usr/local/perlbrew/bin:$PATH
 
 # all require perl modules in cpanfile
 WORKDIR /
@@ -23,9 +22,14 @@ RUN apt-get update \
 	&& apt-get install -y libzmq5 libzmq3-dev
 
 # build stableperl
-RUN	perlbrew install -j 4 --64int /stableperl-5.22.0-1.001.tar.gz
+SHELL ["/bin/bash", "-c"]
+ENV PERLBREW_ROOT /usr/local/perlbrew
+RUN	perlbrew init \
+	&& mkdir -p $PERLBREW_ROOT \
+	&& perlbrew install -j 4 --64int /stableperl-5.22.0-1.001.tar.gz
 
 # install perl modules	
-RUN perlbrew use 5.22.0-1.001 \
+RUN source /usr/local/perlbrew/etc/bashrc \
+	&& perlbrew use 5.22.0-1.001 \
 	&& perlbrew install-cpanm \
 	&& cpanm --installdeps . -M https://cpan.metacpan.org
