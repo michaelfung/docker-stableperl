@@ -25,11 +25,12 @@ boot into deb9 and run the mkimage script:
 
 ## perlbrew-base
 
-Provide perlbrew and build essentials.
+Provide perlbrew and build essentials. Though results in bigger image, must use system provided perlbrew, 
+otherwise can start perlbrew in runtime (missing modules).
 
 ## runtime-builder
 
-Don't care the size.
+Don't care the image size.
 
 ## runtime
 
@@ -41,6 +42,7 @@ Copy the perl binaries from **runtime-builder**
 
 ## Usage
 
+See sample-app
 
 ## Reference
 
