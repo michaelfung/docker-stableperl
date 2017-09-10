@@ -7,6 +7,10 @@ requires "Encode";
 requires "Net::Domain";
 requires "AnyEvent";
 requires "AnyEvent::Handle";
+requires "AnyEvent::Socket";
+requires "AnyEvent::TLS";
+requires "AnyEvent::Util";
+requires "AnyEvent::Log";
 requires "POSIX";
 requires "Sys::Syslog";
 requires "JSON::XS";
@@ -39,5 +43,24 @@ requires "Carp";
 requires "Hash::Merge::Simple";
 requires "Data::Dump::Streamer";
 requires "Getopt::Long";
+requires "IO::All";
+requires "File::Basename";
+requires "Crypt::JWT";
+requires "Mojo::JWT";
+requires "Mojolicious::Plugin::SetUserGroup";
+requires "Hash::Merge::Simple";
+requires "Data::Dump::Streamer";
+requires "Crypt::OpenSSL::RSA";
+requires "Crypt::OpenSSL::VerifyX509";
+requires "Crypt::OpenSSL::X509";
+requires "DateTime::Format::ISO8601";
+requires "DateTime::Format::x509";
+requires "LWP::Simple";
+requires "MIME::Base64";
+requires "Types::Standard";
+requires "URI";
+requires "URI::Normalize";
+
+
 
 
