@@ -35,11 +35,12 @@ Create macvlan vlan254, subnet: 10.254.1.0/24
 
 Create vlan iface, vlan tag 254:
 
-	ip link add link enp0s3 name enp0s3.254 type vlan id 254
+	IFNAME=enp0s17
+	ip link add link ${IFNAME} name ${IFNAME}.254 type vlan id 254
+	# Add gateway ip to host iface:
+	ip addr add 10.254.1.1/24 brd 10.254.1.255 dev ${IFNAME}.254 
+	ip link set dev ${IFNAME}.254 up
 	
-Add gateway ip to host iface:
-
-	ip addr add 10.254.1.1/24 brd 10.254.1.255 dev enp0s3.254
 
 Create docker network vlan254:	
 
@@ -47,7 +48,21 @@ Create docker network vlan254:
 	  -d macvlan \
 	  --subnet=10.254.1.0/24 \
 	  --gateway=10.254.1.1 \
-	  -o parent=enp0s3.254 \
+	  -o parent=${IFNAME}.254 \
 	  vlan254
 
 All containers attached to this vlan can communicate with each other.
+
+	docker run \
+	  --net=vlan254 \
+	  -v /opt/docker-vols/sample-app:/app \
+	  --name webapp1 \
+	  -d sample-app:1.0 start
+	  
+	docker run \
+	  --net=vlan254 \
+	  -v /opt/docker-vols/sample-app:/app \
+	  --name webapp2 \
+	  -d sample-app:1.0 start
+	  
+	docker exec webapp1 ping -c 5 webapp2  # test connectivity

@@ -50,9 +50,6 @@ requires "Mojo::JWT";
 requires "Mojolicious::Plugin::SetUserGroup";
 requires "Hash::Merge::Simple";
 requires "Data::Dump::Streamer";
-requires "Crypt::OpenSSL::RSA";
-requires "Crypt::OpenSSL::VerifyX509";
-requires "Crypt::OpenSSL::X509";
 requires "DateTime::Format::ISO8601";
 requires "DateTime::Format::x509";
 requires "LWP::Simple";
@@ -60,7 +57,7 @@ requires "MIME::Base64";
 requires "Types::Standard";
 requires "URI";
 requires "URI::Normalize";
-
-
-
+requires "Mojolicious::Plugin::SetUserGroup";
+requires "Crypt::NSS::X509::Certificate";
+requires "Crypt::PK::RSA";
 
