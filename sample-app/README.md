@@ -65,7 +65,7 @@ All containers attached to this vlan can communicate with each other.
 	  -v /opt/docker-vols/sample-app:/app \
 	  --name webapp1 \
 	  -d sample-app:1.0 start
-	  
+   
 	docker run \
 	  --net=vlan254 \
 	  -v /opt/docker-vols/sample-app:/app \
@@ -73,3 +73,29 @@ All containers attached to this vlan can communicate with each other.
 	  -d sample-app:1.0 start
 	  
 	docker exec webapp1 ping -c 5 webapp2  # test connectivity
+
+## Deploy with Docker Compose
+
+Create a `docker-compose.yml` file: reference the one in this folder.
+
+Run with custom project name:
+
+	docker-compose -p webservice up -d
+
+Run 4 instance of the web app:
+
+	docker-compose -p webservice up -d --scale web=4
+	
+Output:
+
+```
+	Starting webservice_web_1 ... done
+	Creating webservice_web_2 ... done
+	Creating webservice_web_3 ... done
+	Creating webservice_web_4 ... done
+```	
+
+Now, any instance in vlan254 can reach them by name like:
+
+	ping -c 5 webservice_web_3
+

@@ -10,6 +10,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # install required packages
 RUN apt-get update \
+	&& apt-get install -y curl \
 	&& apt-get install -y libev4 libev-dev libffi6 libffi-dev \
 	&& apt-get install -y libzmq5 libzmq3-dev \
 	&& apt-get install -y openssl libssl1.0.2 libssl1.1 libssl-dev libnss3 libnss3-dev \

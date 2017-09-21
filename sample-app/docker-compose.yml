@@ -1,0 +1,15 @@
+version: '3'
+services:
+  web:
+    image: "sample-app:1.0"
+    command: start
+    volumes:
+      - /opt/docker-vols/sample-app:/app
+    networks:
+      - intranet  
+    #restart: always
+networks:
+  intranet:
+    external:
+      name: vlan254
+ 
