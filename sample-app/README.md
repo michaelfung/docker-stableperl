@@ -12,18 +12,25 @@ Use macvlan bridge instead of default docker bridge for performance.
 
 Create a macvlan VLAN which is bridged to the physical LAN subnet at 192.168.0.0/24:
 	
+	IFNAME=enp0s17
 	docker network create \
 	  -d macvlan --macvlan_mode=bridge \
 	  --subnet=192.168.0.0/24 \
 	  --gateway=192.168.0.1 \
-	  -o parent=enp0s3 \
+	  -o parent=${IFNAME} \
 	  vlanbridge
 
 Start app in with network connected to macvlan VLAN:
 	docker run \
-	  --net=vlanbridge --ip=192.168.0.231 \
+	  --net=vlanbridge --ip=192.168.0.193 \
 	  -v /opt/docker-vols/sample-app:/app \
-	  --name webapp1 \
+	  --name webapp3 \
+	  -d sample-app:1.0 start
+
+	docker run \
+	  --net=vlanbridge --ip=192.168.0.194 \
+	  -v /opt/docker-vols/sample-app:/app \
+	  --name webapp4 \
 	  -d sample-app:1.0 start
 
 Now we can connect to app from any host on the physical LAN.
