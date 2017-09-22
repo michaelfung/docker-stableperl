@@ -6,10 +6,17 @@ services:
     volumes:
       - /opt/docker-vols/sample-app:/app
     networks:
-      - intranet  
-    #restart: always
+    #  - intranet  
+      - locallan
+    restart: "on-failure:3"
+    ulimits:    
+      nofile:
+        soft: 4000
+        hard: 8000 
 networks:
   intranet:
     external:
       name: vlan254
- 
+  locallan:
+    external:
+      name: vlanbridge

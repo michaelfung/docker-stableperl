@@ -14,9 +14,10 @@ Create a macvlan VLAN which is bridged to the physical LAN subnet at 192.168.0.0
 	
 	IFNAME=enp0s17
 	docker network create \
-	  -d macvlan --macvlan_mode=bridge \
+	  -d macvlan \
 	  --subnet=192.168.0.0/24 \
 	  --gateway=192.168.0.1 \
+	  --ip-range=192.168.0.192/28 \
 	  -o parent=${IFNAME} \
 	  vlanbridge
 
@@ -25,12 +26,14 @@ Start app in with network connected to macvlan VLAN:
 	  --net=vlanbridge --ip=192.168.0.193 \
 	  -v /opt/docker-vols/sample-app:/app \
 	  --name webapp3 \
+	  --restart "on-failure:3" \
 	  -d sample-app:1.0 start
 
 	docker run \
 	  --net=vlanbridge --ip=192.168.0.194 \
 	  -v /opt/docker-vols/sample-app:/app \
 	  --name webapp4 \
+	  --restart "on-failure:3" \
 	  -d sample-app:1.0 start
 
 Now we can connect to app from any host on the physical LAN.
@@ -64,12 +67,14 @@ All containers attached to this vlan can communicate with each other.
 	  --net=vlan254 \
 	  -v /opt/docker-vols/sample-app:/app \
 	  --name webapp1 \
+	  --restart "on-failure:3" \
 	  -d sample-app:1.0 start
    
 	docker run \
 	  --net=vlan254 \
 	  -v /opt/docker-vols/sample-app:/app \
 	  --name webapp2 \
+	  --restart "on-failure:3" \
 	  -d sample-app:1.0 start
 	  
 	docker exec webapp1 ping -c 5 webapp2  # test connectivity
@@ -85,15 +90,7 @@ Run with custom project name:
 Run 4 instance of the web app:
 
 	docker-compose -p webservice up -d --scale web=4
-	
-Output:
 
-```
-	Starting webservice_web_1 ... done
-	Creating webservice_web_2 ... done
-	Creating webservice_web_3 ... done
-	Creating webservice_web_4 ... done
-```	
 
 Now, any instance in vlan254 can reach them by name like:
 
