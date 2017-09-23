@@ -1,12 +1,11 @@
-version: '3'
+version: '3.3'
 services:
   web:
     image: "sample-app:1.0"
     command: start
     volumes:
-      - /opt/docker-vols/sample-app:/app
+    - sample-app:/app:ro
     networks:
-    #  - intranet  
       - locallan
     restart: "on-failure:3"
     ulimits:    
@@ -20,3 +19,6 @@ networks:
   locallan:
     external:
       name: vlanbridge
+volumes:
+  sample-app:
+    external: true    

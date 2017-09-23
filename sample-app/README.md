@@ -5,6 +5,10 @@
 
 Host folder `/opt/docker-vols/sample-app` map to container's `/app` folder.
 
+Or recommended by Docker, use a docker managed volume:
+
+	docker volume create sample-app
+
 
 ## Networking with bridge to physical LAN
 
@@ -23,16 +27,16 @@ Create a macvlan VLAN which is bridged to the physical LAN subnet at 192.168.0.0
 
 Start app in with network connected to macvlan VLAN:
 	docker run \
-	  --net=vlanbridge --ip=192.168.0.193 \
-	  -v /opt/docker-vols/sample-app:/app \
-	  --name webapp3 \
+	  --net=vlanbridge \
+	  --mount source=sample-app,target=/app \
+	  --name webapp1 \
 	  --restart "on-failure:3" \
 	  -d sample-app:1.0 start
 
 	docker run \
-	  --net=vlanbridge --ip=192.168.0.194 \
-	  -v /opt/docker-vols/sample-app:/app \
-	  --name webapp4 \
+	  --net=vlanbridge \
+	  --mount source=sample-app,target=/app \
+	  --name webapp2 \
 	  --restart "on-failure:3" \
 	  -d sample-app:1.0 start
 
@@ -65,14 +69,14 @@ All containers attached to this vlan can communicate with each other.
 
 	docker run \
 	  --net=vlan254 \
-	  -v /opt/docker-vols/sample-app:/app \
+	  --mount source=sample-app,target=/app \
 	  --name webapp1 \
 	  --restart "on-failure:3" \
 	  -d sample-app:1.0 start
    
 	docker run \
 	  --net=vlan254 \
-	  -v /opt/docker-vols/sample-app:/app \
+	  --mount source=sample-app,target=/app \
 	  --name webapp2 \
 	  --restart "on-failure:3" \
 	  -d sample-app:1.0 start
