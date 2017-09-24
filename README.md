@@ -7,8 +7,13 @@ Marc Lehmann's stableperl
 Image dependency layers:
 
 | runtime |
+	|
 | runtime-builder |
-| perlbrew-base |
+	|
+| stableperl |
+	|
+| perlbrew |
+	|
 | deb9-base |
 
 
@@ -23,13 +28,19 @@ boot into deb9 and run the mkimage script:
 	cd /usr/share/docker-ce/contrib
 	sudo ./mkimage.sh -t deb9-base:1.0-170917 debootstrap stretch
 
-## perlbrew-base
+## perlbrew
 
 Provide perlbrew and build essentials. Though results in bigger image, must use system provided perlbrew, 
 otherwise can start perlbrew in runtime (missing modules).
 
+## stableperl
+
+Compile the stableperl tarball here.
+To provide bare stableperl without addidtional modules.
+
 ## runtime-builder
 
+Use stableperl to build require cpan modules.
 Don't care the image size.
 
 ## runtime

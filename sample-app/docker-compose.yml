@@ -4,10 +4,13 @@ services:
     image: "sample-app:1.0"
     command: start
     volumes:
-    - sample-app:/app:ro
+      - type: volume
+        source: sample-app
+        target: /app
+        read_only: true
     networks:
       - locallan
-    restart: "on-failure:3"
+    restart: "unless-stopped"
     ulimits:    
       nofile:
         soft: 4000
