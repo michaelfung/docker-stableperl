@@ -99,10 +99,14 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 # backup config files
 RUN cp -a /etc/nginx /etc/nginx.orig	
 
+# copy our default config
+COPY nginx.conf /etc/nginx/
+COPY index.html /webroot/
+
 EXPOSE 80
 
 STOPSIGNAL SIGTERM
 
-VOLUME ["/etc/nginx", "/var/www/html"]
+VOLUME ["/etc/nginx", "/webroot"]
 
 CMD ["nginx", "-g", "daemon off;"]

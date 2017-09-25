@@ -10,17 +10,31 @@
 
 Put config, key and cert in host file system.
 
-Bind the container's config folder `/etc/nginx` to host file system.
+Bind the container's config folder `/etc/nginx` to a docker volume.
 
-Mount the container's rootfs read only.
+Bind the container's webroot folder `/wwwroot` to a docker volume.
+
+~~Mount the container's rootfs read only.~~
 
 
+### Examine
+
+	docker run -d -it \
+	  --network=vlanbridge \
+	  --name=nginx-shell \
+	  --mount source=ngix-conf,target=/etc/nginx \
+	  --mount source=webroot,target=/webroot \
+	  --tmpfs="/run:rw,noexec,nosuid,size=16k" \
+	  deb9-nginx:stable /bin/bash
+	  
 ### Run
 
 	docker run -d \
 	  --network=vlanbridge \
-	  --name=ngnix \
-	  --tmpfs=/run:rw,noexec,nosuid,size=64k \
+	  --name=nginx \
+	  --mount source=ngix-conf,target=/etc/nginx \
+	  --mount source=webroot,target=/webroot \
+	  --tmpfs="/run:rw,noexec,nosuid,size=16k" \
 	  deb9-nginx:stable
 
 
