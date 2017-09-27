@@ -22,7 +22,7 @@ Bind the container's webroot folder `/wwwroot` to a docker volume.
 	docker run -d -it \
 	  --network=vlanbridge \
 	  --name=nginx-shell \
-	  --mount source=ngix-conf,target=/etc/nginx \
+	  --mount source=nginx-conf,target=/etc/nginx \
 	  --mount source=webroot,target=/webroot \
 	  --tmpfs="/run:rw,noexec,nosuid,size=16k" \
 	  deb9-nginx:stable /bin/bash
@@ -32,7 +32,7 @@ Bind the container's webroot folder `/wwwroot` to a docker volume.
 	docker run -d \
 	  --network=vlanbridge \
 	  --name=nginx \
-	  --mount source=ngix-conf,target=/etc/nginx \
+	  --mount source=nginx-conf,target=/etc/nginx \
 	  --mount source=webroot,target=/webroot \
 	  --tmpfs="/run:rw,noexec,nosuid,size=16k" \
 	  deb9-nginx:stable
