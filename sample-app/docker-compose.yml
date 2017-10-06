@@ -7,7 +7,7 @@ services:
       - type: volume
         source: sample-app
         target: /app
-        read_only: true
+        read_only: false
     networks:
       - locallan
     restart: "unless-stopped"
