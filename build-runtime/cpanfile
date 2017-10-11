@@ -61,4 +61,4 @@ requires "Mojolicious::Plugin::SetUserGroup";
 requires "Alien::Base::ModuleBuild";
 requires "Crypt::NSS::X509::Certificate";
 requires "Crypt::PK::RSA";
-
+requires "AnyEvent::Tools";
