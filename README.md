@@ -31,7 +31,7 @@ boot into deb9 and run the mkimage script:
 ## perlbrew
 
 Provide perlbrew and build essentials. Though results in bigger image, must use system provided perlbrew,
-otherwise can start perlbrew in runtime (missing modules).
+otherwise cannot start perlbrew in runtime (missing modules).
 
 ## stableperl
 
