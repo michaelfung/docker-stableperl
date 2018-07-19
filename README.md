@@ -14,24 +14,23 @@ Image dependency layers:
 	|
 | perlbrew |
 	|
-| deb9-base |
+| ubuntu  |
 
 
 # Steps
 
-## deb9-base
+## ubuntu
 
-image name: deb9-base:1.0-170917
+We just use Docker privided image of Ubuntu 18.04 LTS.
 
-boot into deb9 and run the mkimage script:
-
-	cd /usr/share/docker-ce/contrib
-	sudo ./mkimage.sh -t deb9-base:1.0-170917 debootstrap stretch
+	docker pull ubuntu:bionic
 
 ## perlbrew
 
 Provide perlbrew and build essentials. Though results in bigger image, must use system provided perlbrew,
 otherwise cannot start perlbrew in runtime (missing modules).
+
+It is the first step to creating the builder image.
 
 ## stableperl
 

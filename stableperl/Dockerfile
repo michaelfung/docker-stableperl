@@ -1,7 +1,8 @@
-# build stableperl and required modules for App
-# example: docker build -t stableperl:1.0 .
+# build stableperl 
+# require the stableperl distribution in ./tmp
+# example: docker build -t stableperl:stable .
 
-FROM perlbrew:1.0
+FROM perlbrew:stable
 
 MAINTAINER "Michael Fung <hkuser2001@gmail.com>"
 
@@ -11,7 +12,7 @@ ENV HOME /root
 
 # all require perl modules in cpanfile
 WORKDIR /
-COPY stableperl-5.22.0-1.001.tar.gz /
+COPY ./tmp/stableperl-5.22.0-1.001.tar.gz /
 
 # install build tools, and
 # build stableperl

@@ -1,7 +1,7 @@
-# build to basic perlbrew image
-# example: docker build -t perlbrew:1.0 .
+# build a perlbrew enabled image
+# example: docker build -t perlbrew:stable .
 
-FROM deb9-base:1.0
+FROM ubuntu:bionic
 
 MAINTAINER "Michael Fung <hkuser2001@gmail.com>"
 
