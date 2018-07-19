@@ -1,7 +1,7 @@
 # build required modules for App
 # example: docker build -t runtime-builder:1.0 .
 
-FROM stableperl:1.0
+FROM stableperl:stable
 
 MAINTAINER "Michael Fung <hkuser2001@gmail.com>"
 
@@ -23,8 +23,8 @@ WORKDIR /
 SHELL ["/bin/bash", "-c"]
 ENV PERLBREW_ROOT /usr/local/perlbrew
 COPY cpanfile /
+COPY modules-list /
 RUN source /usr/local/perlbrew/etc/bashrc \
     && perlbrew use 5.22.0-1.001 \
     && perlbrew install-cpanm \
-    && cpanm --installdeps . -M https://cpan.metacpan.org
-    
+    && cat modules-list | cpanm -M https://cpan.metacpan.org

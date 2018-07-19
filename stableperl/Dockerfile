@@ -1,7 +1,7 @@
 # build stableperl and required modules for App
 # example: docker build -t stableperl:1.0 .
 
-FROM perlbrew:1.0
+FROM perlbrew:stable
 
 MAINTAINER "Michael Fung <hkuser2001@gmail.com>"
 
