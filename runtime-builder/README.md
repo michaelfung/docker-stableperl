@@ -21,17 +21,22 @@ Use [Module::ScanDeps](https://metacpan.org/pod/Module::ScanDeps) to get a list 
 Install:
 
     curl -L http://getpinto.stratopan.com | bash
-    
+
+    # then, put those in ~/.bashrc to ease operation
     alias pinto='pinto --root /data/localcpan'
     source ~/opt/local/pinto/etc/bashrc
 
-    mount /data/localcpan
+Create the repository on a local data folder:
+
+    mkdir /data/localcpan
     pinto init /data/localcpan
+
+Populate the repo with currently installed modules:
 
     perlbrew list-modules | pinto pull --no-fail --use-default-message
     
 
-## cpanfile
+## Automate modules installation
 
 We need to maintain a _cpanfile_ for auto installing the modules with cpanm.
 
@@ -40,7 +45,15 @@ We need to maintain a _cpanfile_ for auto installing the modules with cpanm.
 Maintain the file manually, or ...
 
     
-### Create library volume 
+## Create library volume 
+
+The builder will install modules into a library volume, which the scripts will use find modules. Example:
+
+    use lib '/applib';
+    use Mango;  # installed under /applib
+
+It makes development easy by not requiring a docker rebuild when new modules are required.
+
 
 create a docker volume:
 
