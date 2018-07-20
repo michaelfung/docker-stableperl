@@ -1,6 +1,7 @@
 # docker-stableperl
 
-Marc Lehmann's stableperl
+Build a stable perl environment for development and deployment, using 
+Marc Lehmann's stableperl as an example.
 
 # structure
 
@@ -27,8 +28,9 @@ We just use Docker privided image of Ubuntu 18.04 LTS.
 
 ## perlbrew
 
-Provide perlbrew and build essentials. Though results in bigger image, must use system provided perlbrew,
-otherwise cannot start perlbrew in runtime (missing modules).
+Provide perlbrew and build essentials. Though results in bigger image, 
+must use system provided perlbrew, otherwise cannot start perlbrew in 
+runtime (missing modules).
 
 It is the first step to creating the builder image.
 
@@ -39,12 +41,12 @@ To provide bare stableperl without addidtional modules.
 
 ## runtime-builder
 
-Use stableperl to build require cpan modules.
+Create a builder environment to build required perl modules and other stuff.
 Don't care the image size.
 
 ## runtime
 
-Copy the perl binaries from **runtime-builder**
+Copy the built modules and related stuff from **runtime-builder**
 
 
 ## Config

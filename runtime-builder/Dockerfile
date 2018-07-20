@@ -1,14 +1,16 @@
-# build required modules for App
-# example: docker build -t runtime-builder:1.0 .
+# build required perl modules for your App
+# list all require perl modules in cpanfile
 
-FROM stableperl:1.0
+# example: docker build -t runtime-builder:stable .
+
+FROM stableperl:stable
 
 MAINTAINER "Michael Fung <hkuser2001@gmail.com>"
 
 ENV DEBIAN_FRONTEND noninteractive
 
 # install build tools, 
-# install required binary lib,
+# install required binary libs,
 RUN apt-get update \
     && apt-get install -y git curl build-essential \
     && apt-get install -y libev4 libev-dev libffi6 libffi-dev \
@@ -16,8 +18,7 @@ RUN apt-get update \
     && apt-get install -y openssl libssl1.0.2 libssl1.1 libssl-dev libnss3 libnss3-dev
 
 # switch to stableperl,
-# use cpanm to install modules
-# all require perl modules in cpanfile
+# use cpanm to install modules 
 ENV HOME /root
 WORKDIR /
 SHELL ["/bin/bash", "-c"]
