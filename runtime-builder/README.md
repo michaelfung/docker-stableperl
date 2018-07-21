@@ -63,9 +63,15 @@ create a docker volume:
     docker volume create applib
 
 
-## Build some modules
+## Build modules using this builder
 
 To build and install some modules into the _applib_ volume, in an ad-hoc fashion:
 
-    docker run -it --rm --mount source=applib,target=/applib runtime-builder:stable cpanm -l /applib Modern::Perl Test::More
+    docker run -t --rm --mount source=applib,target=/applib runtime-builder:stable cpanm -M http://localcpan.lan:3111 -l /applib Modern::Perl Test::More
 
+To build all modules in a list
+
+    export PKGS=`xargs < modules-list`
+    docker run -t --rm --mount source=applib,target=/applib runtime-builder:stable cpanm -M http://localcpan.lan:3111 -l /applib $PKGS
+    
+    
