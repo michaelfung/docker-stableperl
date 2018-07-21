@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM alpine
 
 MAINTAINER "Michael Fung <hkuser2001@gmail.com>"
 

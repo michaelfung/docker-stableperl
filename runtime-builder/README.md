@@ -18,6 +18,8 @@ Use [Module::ScanDeps](https://metacpan.org/pod/Module::ScanDeps) to get a list 
 
 ### Setup pinto
 
+For the time being, install pinto outside of docker
+
 Install:
 
     curl -L http://getpinto.stratopan.com | bash
@@ -29,7 +31,9 @@ Install:
 Create the repository on a local data folder:
 
     mkdir /data/localcpan
-    pinto init /data/localcpan
+    pinto init
+
+Edit the repository options at */data/localcpan/.pinto/config/pinto.ini* .
 
 Populate the repo with currently installed modules:
 
@@ -47,14 +51,21 @@ Maintain the file manually, or ...
     
 ## Create library volume 
 
-The builder will install modules into a library volume, which the scripts will use find modules. Example:
+The builder will install modules into a library volume, under the _perl_ folder, which the scripts will use to find modules. Example:
 
-    use lib '/applib';
-    use Mango;  # installed under /applib
+    use local::lib '/applib/perl';
+    use Some::Module;  # installed by "cpanm -l /applib/perl Some::Module"
 
-It makes development easy by not requiring a docker rebuild when new modules are required.
-
+It makes development easy by not requiring a docker image rebuild whenever new modules are required.
 
 create a docker volume:
 
     docker volume create applib
+
+
+## Build some modules
+
+To build and install some modules into the _applib_ volume, in an ad-hoc fashion:
+
+    docker run -it --rm --mount source=applib,target=/applib runtime-builder:stable cpanm -l /applib Modern::Perl Test::More
+
