@@ -20,7 +20,7 @@ COPY ./tmp/stableperl-5.22.0-1.001.tar.gz /
 RUN apt-get update \    
     && apt-get install -y libev4 libffi6 \
     && apt-get install -y libzmq5 \
-    && apt-get install -y openssl libssl1.0.0 libssl1.1 libnss3
+    && apt-get install -y zlib1g openssl libssl1.0.0 libssl1.1 libnss3
 
 #
 # install build tools, and
@@ -40,7 +40,7 @@ RUN apt-get -y install git curl build-essential \
 RUN apt-get update \    
     && apt-get install -y libev-dev libffi-dev \
     && apt-get install -y libzmq3-dev \
-    && apt-get install -y libssl-dev libnss3-dev \
+    && apt-get install -y zlib1g-dev libssl-dev libnss3-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*  # cleanup to save space
 
 #
