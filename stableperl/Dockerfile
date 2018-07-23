@@ -2,6 +2,9 @@
 # require the stableperl distribution in ./tmp
 # example: docker build -t stableperl:stable .
 
+# Inspection usage:
+# docker run -it --rm stableperl:stable /bin/bash
+
 FROM perlbrew:stable
 
 MAINTAINER "Michael Fung <hkuser2001@gmail.com>"
@@ -15,14 +18,6 @@ WORKDIR /
 COPY ./tmp/stableperl-5.22.0-1.001.tar.gz /
 
 #
-# install binary libs, repeat these in runtime Dockerfile
-#
-RUN apt-get update \    
-    && apt-get install -y libev4 libffi6 \
-    && apt-get install -y libzmq5 \
-    && apt-get install -y zlib1g openssl libssl1.0.0 libssl1.1 libnss3
-
-#
 # install build tools, and
 # build stableperl
 #
@@ -32,15 +27,7 @@ RUN apt-get -y install git curl build-essential \
     && perlbrew init \
     && mkdir -p $PERLBREW_ROOT \
     && perlbrew install -j 4 --64int /stableperl-5.22.0-1.001.tar.gz \
-    && rm -f stableperl-5.22.0-1.001.tar.gz
-
-#
-# install binary libs developement dependencies
-#
-RUN apt-get update \    
-    && apt-get install -y libev-dev libffi-dev \
-    && apt-get install -y libzmq3-dev \
-    && apt-get install -y zlib1g-dev libssl-dev libnss3-dev \
+    && rm -f stableperl-5.22.0-1.001.tar.gz \
     && apt-get clean && rm -rf /var/lib/apt/lists/*  # cleanup to save space
 
 #
@@ -53,5 +40,7 @@ RUN source /opt/perlbrew/etc/bashrc \
     && perlbrew install-cpanm \
     && cpanm local::lib
 
-ENTRYPOINT ["/entrypoint.sh"]
 COPY entrypoint.sh .
+ENTRYPOINT ["/entrypoint.sh"]
+
+
