@@ -10,4 +10,5 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV HOME /root
 
 RUN apt-get update \
-	&& apt-get -y install perlbrew
+    && apt-get -y install perlbrew \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*  # cleanup to save space

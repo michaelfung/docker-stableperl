@@ -1,33 +1,54 @@
 # build the runtime image
-# example: docker build -t stableperl-rt:1.0 .
+# example: docker build -t rt:stable .
 
-FROM runtime-builder:1.0 as builder 
+FROM rt-builder:stable as builder 
 
+FROM ubuntu:bionic
 
-FROM deb9-base:1.0
 MAINTAINER "Michael Fung <hkuser2001@gmail.com>"
 ENV DEBIAN_FRONTEND noninteractive
 
-# install required packages
-RUN apt-get update \
-	&& apt-get install -y curl \
-	&& apt-get install -y libev4 libev-dev libffi6 libffi-dev \
-	&& apt-get install -y libzmq5 libzmq3-dev \
-	&& apt-get install -y openssl libssl1.0.2 libssl1.1 libssl-dev libnss3 libnss3-dev \
-	&& mkdir -p /usr/local/perlbrew/bin \
-	&& mkdir -p /usr/local/perlbrew/etc \
-	&& mkdir -p /usr/local/perlbrew/perls
+#
+# install required binary libs
+#
+RUN apt-get update \    
+    && apt-get install -y libev4 libffi6 \
+    && apt-get install -y libzmq5 \
+    && apt-get install -y openssl libssl1.0.0 libssl1.1 libnss3 \
+    && apt-get install -y zlib1g \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*  # cleanup to save space
 
-# install perlbrew
+#
+# install perlbrew depended perl modules, and set folders struct for import
+#
 ENV HOME /root
-ENV PERLBREW_ROOT /usr/local/perlbrew
+ENV PERLBREW_ROOT /opt/perlbrew
 SHELL ["/bin/bash", "-c"]
-RUN apt-get install -y perlbrew \
-	&& perlbrew init
-	
-# copy stableperl and modules from builder	
-COPY --from=builder /usr/local/perlbrew/bin/ /usr/local/perlbrew/bin/
-COPY --from=builder /usr/local/perlbrew/etc/ /usr/local/perlbrew/etc/
-COPY --from=builder /usr/local/perlbrew/perls/ /usr/local/perlbrew/perls/
+RUN apt-get update \    
+    && apt-get install -y libcapture-tiny-perl libcpan-perl-releases-perl libdevel-patchperl-perl liblocal-lib-perl \
+    && mkdir -p /opt/perlbrew \
+    && mkdir -p /usr/share/perl5/App \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*  # cleanup to save space
 
+#    
+# copy perlbrew binary from builder
+#
+COPY --from=builder /usr/bin/perlbrew /usr/bin/perlbrew
+COPY --from=builder /usr/share/perl5/App/perlbrew.pm /usr/share/perl5/App/perlbrew.pm
 
+#    
+# copy stableperl and modules from builder
+#
+COPY --from=builder /opt/perlbrew/ /opt/perlbrew/
+
+#
+# setup docker run entry
+#
+COPY entrypoint.sh .
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["/bin/bash"]
+
+#
+# export /opt for inspection and developement
+#
+VOLUME ["/opt"]
