@@ -3,7 +3,7 @@
 # run the app with:
 # docker run -d -p 8080:3000 -v /opt/docker-vols/sample-app:/app sample-app:1.0 start
 
-FROM stableperl-rt:1.0 
+FROM rt:stable
 
 #USER daemon
 WORKDIR /app

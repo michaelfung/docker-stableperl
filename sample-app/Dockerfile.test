@@ -1,0 +1,25 @@
+# build a sample app: mojolicious lite web server
+# example: docker build -f Dockerfile.test -t sample-app:test .
+
+# run the app with:
+# docker run -d -p 8080:3000 --name sample-app-test --mount source=sample-app,target=/app sample-app:test start
+
+FROM rt:test
+
+#USER daemon
+
+WORKDIR /
+COPY entrypoint.sh .
+
+WORKDIR /app
+COPY myweb.pl .
+
+ENV APP_PORT=3000 \
+    MOJO_MODE=production
+
+EXPOSE $APP_PORT
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["start"]
+
+VOLUME ["/app"]

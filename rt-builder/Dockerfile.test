@@ -1,3 +1,5 @@
+# WARNING: no test performed when building perl modules for speed purpose
+
 # create a builder environment to build required perl modules for your App
 # need to list all require perl modules in cpanfile
 
@@ -34,7 +36,9 @@ ENV PERLBREW_ROOT /opt/perlbrew
 COPY modules-list /
 RUN source /opt/perlbrew/etc/bashrc \
     && perlbrew use 5.22.0-1.001 \
-    && xargs < modules-list | cpanm -M http://localcpan.lan:3111 --no-man-pages
+    && xargs < modules-list | cpanm -M http://localcpan.lan:3111 --notest --no-man-pages \
+    && rm -rf /opt/perlbrew/build \
+    && rm -f /opt/perlbrew/*log
 
 #
 # setup docker run entry

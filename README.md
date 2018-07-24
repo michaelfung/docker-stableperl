@@ -1,20 +1,20 @@
 # docker-stableperl
 
-Build a stable perl environment for development and deployment, using 
-Marc Lehmann's stableperl as an example.
+Build a stable perl environment for development and deployment, using
+Marc Lehmann's [stableperl](http://software.schmorp.de/pkg/stableperl.html) as an example.
 
 # structure
 
 Image dependency layers:
 
 | runtime |
-	|
+    |
 | runtime-builder |
-	|
+    |
 | stableperl |
-	|
+    |
 | perlbrew |
-	|
+    |
 | ubuntu  |
 
 
@@ -24,12 +24,12 @@ Image dependency layers:
 
 We just use Docker privided image of Ubuntu 18.04 LTS.
 
-	docker pull ubuntu:bionic
+    docker pull ubuntu:bionic
 
 ## perlbrew
 
-Provide perlbrew and build essentials. Though results in bigger image, 
-must use system provided perlbrew, otherwise cannot start perlbrew in 
+Provide perlbrew and build essentials. Though results in bigger image,
+must use system provided perlbrew, otherwise cannot start perlbrew in
 runtime (missing modules).
 
 It is the first step to creating the builder image.
