@@ -1,4 +1,4 @@
-# build stableperl 
+# build stableperl
 # require the stableperl distribution in ./tmp
 # example: docker build -t stableperl:stable .
 
@@ -23,7 +23,8 @@ COPY ./tmp/stableperl-5.22.0-1.001.tar.gz /
 #
 SHELL ["/bin/bash", "-c"]
 ENV PERLBREW_ROOT /opt/perlbrew
-RUN apt-get -y install git curl build-essential \
+RUN apt-get update \
+    && apt-get -y install git curl build-essential \
     && perlbrew init \
     && mkdir -p $PERLBREW_ROOT \
     && perlbrew install -j 4 --64int /stableperl-5.22.0-1.001.tar.gz \
@@ -42,5 +43,3 @@ RUN source /opt/perlbrew/etc/bashrc \
 
 COPY entrypoint.sh .
 ENTRYPOINT ["/entrypoint.sh"]
-
-

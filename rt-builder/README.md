@@ -16,7 +16,7 @@ To get a list of install installed modules:
 
 ### Setup pinto
 
-For the time being, install pinto outside of docker.
+For the time being, install pinto outside of docker, even on another machine.
 
 Install:
 
@@ -41,28 +41,33 @@ Serve the repository with _pintod_ :
 
     pintod --root /data/localcpan
 
-        
-## Build modules using this builder image
+
+## Build tips
+
+Speed up the image build process if you are sure all modules would built without problems:
+
+    docker build --build-arg=PERL_CPANM_OPT="--notest" -t rt-builder:stable .
+
+
+## Using the image
 
 To build and install some modules into the _opt_ volume:
 
-    docker run -t --rm --mount source=opt,target=/opt runtime-builder:stable cpanm -M http://localcpan.lan:3111 Some::Module
+    docker run -t --rm --mount source=stableperl-opt,target=/opt rt-builder:stable cpanm -M http://localcpan.lan:3111 Some::Module
 
 To build all modules in a list
 
     export PKGS=`xargs < modules-list`
-    docker run -t --rm --mount source=stabelperl-opt-vol,target=/opt runtime-builder:stable cpanm -M http://localcpan.lan:3111 Some::Module $PKGS
-    
-    
-## Exporting the perl environment
+    docker run -t --rm --mount source=stableperl-opt,target=/opt runtime-builder:stable cpanm -M http://localcpan.lan:3111 $PKGS
+
+
+## Exporting the perl runtime environment
 
 Use either method below:
 
-1. Build a new image that will copy the _/opt_ folder from this image. See stableperl-rt.
+1. Build a new image that will copy the _/opt_ folder from this image. See **stableperl-rt**.
 
 2. Export the _/opt/pearbrew_ folder to docker volume:
 
-    docker volume create stabelperl-opt-vol
-    docker run -t --rm --mount source=stabelperl-opt-vol,target=/opt runtime-builder:stable
-    
-    
+    docker volume create stabelperl-opt
+    docker run -t --rm --mount source=stabelperl-opt-vol,target=/opt rt-builder:stable

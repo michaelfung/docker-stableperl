@@ -37,16 +37,16 @@ It is the first step to creating the builder image.
 ## stableperl
 
 Compile the stableperl tarball here.
-To provide bare stableperl without addidtional modules.
+To provide bare stableperl without additional modules.
 
-## runtime-builder
+## rt-builder
 
 Create a builder environment to build required perl modules and other stuff.
 Don't care the image size.
 
-## runtime
+## stableperl-rt
 
-Copy the built modules and related stuff from **runtime-builder**
+Copy the built modules and related stuff from **rt-builder**
 
 
 ## Config
@@ -57,19 +57,3 @@ Copy the built modules and related stuff from **runtime-builder**
 See sample-app
 
 ## Reference
-
-### Build on VM
-
-
-apt-get install -y libev4 libev-dev libffi6 libffi-dev
-apt-get install -y libzmq5 libzmq3-dev
-
-export PERLBREW_ROOT=/usr/local/perlbrew
-perl --version
-curl -L https://install.perlbrew.pl | bash
-source /usr/local/perlbrew/etc/bashrc
-perlbrew install -j 4 --64int  /home/mike/Downloads/stableperl-5.22.0-1.001.tar.gz
-
-perlbrew use 5.22.0-1.001
-
-cpanm --installdeps . -M https://cpan.metacpan.org

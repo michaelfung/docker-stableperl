@@ -2,6 +2,8 @@
 # need to list all require perl modules in cpanfile
 
 # example: docker build -t rt-builder:stable .
+# speed up if you sure modules will build ok:
+# $ docker build --build-arg=PERL_CPANM_OPT="--notest" -t rt-builder:stable .
 
 # inspection usage:
 # $ docker run -it --rm --mount source=opt,target=/opt rt-builder:stable /bin/bash
@@ -30,11 +32,14 @@ RUN apt-get update \
 #
 # switch to stableperl, and install modules
 #
+ARG PERL_CPANM_OPT
 ENV PERLBREW_ROOT /opt/perlbrew
 COPY modules-list /
 RUN source /opt/perlbrew/etc/bashrc \
     && perlbrew use 5.22.0-1.001 \
-    && xargs < modules-list | cpanm -M http://localcpan.lan:3111 --no-man-pages
+    && xargs < modules-list | cpanm -M http://localcpan.lan:3111 --no-man-pages \
+    && rm -rf /opt/perlbrew/build \
+    && rm -f /opt/perlbrew/*log
 
 #
 # setup docker run entry
