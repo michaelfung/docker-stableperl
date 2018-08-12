@@ -95,7 +95,9 @@ IO::All
 IO::CaptureOutput
 IO::FDPass
 IO::HTML
+IO::Socket::IP
 IO::Socket::SSL
+IO::Socket::Socks
 IPC::Run3
 Import::Into
 Importer
@@ -137,6 +139,7 @@ MongoDB
 Moo
 Moose
 MooseX::Types
+Net::DNS::Native
 Net::Etcd
 Net::HTTP
 Net::SSLeay
