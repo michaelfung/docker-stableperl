@@ -56,4 +56,4 @@ CMD ["/bin/bash"]
 #
 # export /opt for inspection and developement
 #
-VOLUME ["/opt"]
+VOLUME ["/opt/perlbrew"]

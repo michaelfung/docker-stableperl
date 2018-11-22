@@ -52,4 +52,4 @@ CMD ["/build.sh"]
 #
 # export /opt for inspection
 #
-VOLUME ["/opt"]
+VOLUME ["/opt/perlbrew"]
