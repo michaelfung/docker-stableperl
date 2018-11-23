@@ -1,13 +1,21 @@
 #!/bin/bash
 
-source /opt/perlbrew/etc/bashrc
+cat <<EOT
+#
+# How to update or add perl modules
+#
 
-# start building modules with cpanm
+# run the builder with the perlbrew volume
+    docker run -it --rm --mount source=perlbrew,target=/opt/perlbrew stableperl-rt-builder /bin/bash
 
-echo "xargs < modules-list | cpanm -M http://localcpan.lan:3111 2> /tmp/builderr.log"
+# setup env
+    source /opt/perlbrew/etc/bashrc
+    perlbrew use perl-5.22.0-1.001
 
-echo "done bulding modules."
+# Install or update needed modules with cpanm:
+    cpanm -M http://localcpan.lan:3111 --no-man-pages Some::Module
+
+EOT
+
 
 exit 0;
-
-

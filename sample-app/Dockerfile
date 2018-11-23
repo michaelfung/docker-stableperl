@@ -2,7 +2,7 @@
 # example: docker build -f Dockerfile -t sample-app .
 
 # run the app with:
-# docker run -d -p 8080:3000 --name sample-app-test --mount source=sample-app,target=/app sample-app start
+# docker run -d -p 8081:3000 --name sample-app-test --mount source=sample-app,target=/app --mount source=perlbrew,target=/opt/perlbrew sample-app start
 
 FROM rt:stable
 
@@ -22,3 +22,4 @@ ENTRYPOINT ["/entrypoint.sh"]
 CMD ["start"]
 
 VOLUME ["/app"]
+VOLUME ["/opt/perlbrew"]

@@ -50,6 +50,6 @@ ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/build.sh"]
 
 #
-# export /opt for inspection
+# export /opt/perlbrew for inspection
 #
 VOLUME ["/opt/perlbrew"]
