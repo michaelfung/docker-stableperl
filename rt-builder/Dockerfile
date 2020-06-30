@@ -25,7 +25,7 @@ RUN apt-get update \
     && apt-get install -y git curl build-essential \
     && apt-get install -y libev4 libev-dev libffi6 libffi-dev \
     && apt-get install -y libzmq5 libzmq3-dev \
-    && apt-get install -y openssl libssl1.0.0 libssl1.1 libssl-dev libnss3 libnss3-dev \
+    && apt-get install -y openssl libssl1.1 libssl-dev libnss3 libnss3-dev \
     && apt-get install -y zlib1g zlib1g-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*  # cleanup to save space
 
@@ -35,11 +35,12 @@ RUN apt-get update \
 ARG PERL_CPANM_OPT
 ENV PERLBREW_ROOT /opt/perlbrew
 COPY modules-list /
-RUN source /opt/perlbrew/etc/bashrc \
-    && perlbrew use 5.22.0-1.001 \
-    && xargs < modules-list | cpanm -M http://localcpan.lan:3111 --no-man-pages \
-    && rm -rf /opt/perlbrew/build \
-    && rm -f /opt/perlbrew/*log
+
+#RUN source /opt/perlbrew/etc/bashrc \
+#    && perlbrew use 5.22.0-1.001 \
+#    && xargs < modules-list | cpanm --no-man-pages \
+#    && rm -rf /opt/perlbrew/build \
+#    && rm -f /opt/perlbrew/*log
 
 #
 # setup docker run entry

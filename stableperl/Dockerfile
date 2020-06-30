@@ -25,8 +25,8 @@ SHELL ["/bin/bash", "-c"]
 ENV PERLBREW_ROOT /opt/perlbrew
 RUN apt-get update \
     && apt-get -y install git curl build-essential \
-    && perlbrew init \
-    && mkdir -p $PERLBREW_ROOT \
+    && source /opt/perlbrew/etc/bashrc \
+    && perlbrew --version \
     && perlbrew install -j 4 --64int /stableperl-5.22.0-1.001.tar.gz \
     && rm -f stableperl-5.22.0-1.001.tar.gz \
     && apt-get clean && rm -rf /var/lib/apt/lists/*  # cleanup to save space
