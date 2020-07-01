@@ -17,14 +17,14 @@ export MOJO_MAX_WEBSOCKET_SIZE=8192
 case "$CMD" in
   "dev" )
     export MOJO_MODE=development
-    exec /usr/bin/env perl ./myweb.pl daemon -l "http://*:${APP_PORT}"
+    exec /usr/bin/env perl /app/myweb.pl daemon -l "http://*:${APP_PORT}"
     ;;
 
   "start" )
     # we can modify files here, using ENV variables passed in
     # "docker create" command. It can't be done during build process.
     export MOJO_MODE=production
-    exec /usr/bin/env perl ./myweb.pl daemon -l "http://*:${APP_PORT}"
+    exec /usr/bin/env perl /app/myweb.pl daemon -l "http://*:${APP_PORT}"
     ;;
 
    * )
