@@ -1,14 +1,14 @@
 # create a builder environment to build required perl modules for your App
 # need to list all require perl modules in cpanfile
 
-# example: docker build -t rt-builder:stable .
+# example: docker build -t rt-builder:buster .
 # speed up if you sure modules will build ok:
 # $ docker build --build-arg=PERL_CPANM_OPT="--notest" -t rt-builder:stable .
 
 # inspection usage:
 # $ docker run -it --rm --mount source=opt,target=/opt rt-builder:stable /bin/bash
 
-FROM stableperl:stable
+FROM stableperl:buster
 
 MAINTAINER "Michael Fung <hkuser2001@gmail.com>"
 

@@ -1,0 +1,5 @@
+docker stop sample-app-test
+docker rm sample-app-test
+docker run -d -p 8081:3000 --name sample-app-test \
+  --mount source=opt-perlbrew-stableperl,target=/opt/perlbrew \
+  sample-app start

@@ -1,5 +1,6 @@
 # build a perlbrew enabled image
 # example: docker build -t perlbrew:stable .
+# example: docker build -t perlbrew:buster .
 
 FROM debian:buster
 

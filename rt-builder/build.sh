@@ -6,7 +6,7 @@ cat <<EOT
 #
 
 # run the builder with the perlbrew volume
-    docker run -it --rm --mount source=perlbrew,target=/opt/perlbrew stableperl-rt-builder /bin/bash
+    docker run -it --rm --mount source=opt-perlbrew-stableperl,target=/opt/perlbrew rt-builder /bin/bash
 
 # setup env
     source /opt/perlbrew/etc/bashrc

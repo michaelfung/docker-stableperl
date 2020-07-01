@@ -1,11 +1,12 @@
 # build stableperl
 # require the stableperl distribution in ./tmp
 # example: docker build -t stableperl:stable .
+# example: docker build -t stableperl:buster .
 
 # Inspection usage:
-# docker run -it --rm stableperl:stable /bin/bash
+# docker run -it --rm stableperl:buster /bin/bash
 
-FROM perlbrew:stable
+FROM perlbrew:buster
 
 MAINTAINER "Michael Fung <hkuser2001@gmail.com>"
 

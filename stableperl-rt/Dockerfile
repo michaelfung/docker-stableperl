@@ -1,7 +1,8 @@
 # build the runtime image
 # example: docker build -t stableperl-rt:stable .
+# example: docker build -t rt:buster .
 
-FROM rt-builder:stable as builder
+FROM rt-builder:buster as builder
 
 FROM debian:buster
 

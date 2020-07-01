@@ -14,7 +14,8 @@ Use docker managed volumes:
 ## Test run
 
     docker run -d -p 8081:3000 --name sample-app-test \
-      --mount source=sample-app,target=/app --mount source=perlbrew,target=/opt/perlbrew \
+      --mount source=sample-app,target=/app \
+      --mount source=opt-perlbrew-stableperl,target=/opt/perlbrew \
       sample-app start
 
 ## Update of program source
@@ -31,21 +32,15 @@ Or use the toolbox image to update source:
 
 ## Update perl modules
 
-You need to use the stableperl-rt-builder image to update or install addtional perl modules.
-
-    docker run -it --rm \
-      --mount source=perlbrew,target=/opt/perlbrew \
-      stableperl-rt-builder /bin/bash
-
-In the tty, setup perlbrew environment:
-
-    source /opt/perlbrew/etc/bashrc
-    perlbrew use perl-5.22.0-1.001
+You need to use the rt-builder image to update or install addtional perl modules.
 
 Install or update needed modules:
 
-    cpanm -M http://localcpan.lan:3111 --no-man-pages Some::Module
+    docker run -t --rm --mount source=opt-perlbrew-stableperl,target=/opt/perlbrew rt-builder:buster cpanm --no-man-pages Some::Module
 
+Use shell to examine:
+
+    docker run -it --rm --mount source=opt-perlbrew-stableperl,target=/opt/perlbrew rt-builder:buster /bin/bash
 
 ## Networking with bridge to physical LAN
 

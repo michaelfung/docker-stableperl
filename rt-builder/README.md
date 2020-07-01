@@ -42,32 +42,40 @@ Serve the repository with _pintod_ :
     pintod --root /data/localcpan
 
 
-## Build tips
-
-Speed up the image build process if you are sure all modules would built without problems:
-
-    docker build --build-arg=PERL_CPANM_OPT="--notest" -t rt-builder:stable .
-
 
 ## Using the image
 
+First create a volume to hold /opt/perlbrew:
+
+    docker volume create opt-perlbrew-stableperl
+
+Start a shell with the image to make it populate the volume
+
+    docker run -it --rm --mount source=opt-perlbrew-stableperl,target=/opt/perlbrew rt-builder:buster /bin/bash
+
+
 To build and install some modules into the _opt_ volume:
 
-    docker run -t --rm --mount source=stableperl-opt,target=/opt rt-builder:stable cpanm -M http://localcpan.lan:3111 Some::Module
+    docker run -t --rm --mount source=opt-perlbrew-stableperl,target=/opt/perlbrew rt-builder:buster cpanm --no-man-pages Some::Module
+
+    # using Pinto:
+    #docker run -t --rm --mount source=opt-perlbrew-stableperl,target=/opt/perlbrew rt-builder:stable cpanm -M http://localcpan.lan:3111 Some::Module
+
+
 
 To build all modules in a list
 
     export PKGS=`xargs < modules-list`
-    docker run -t --rm --mount source=stableperl-opt,target=/opt runtime-builder:stable cpanm -M http://localcpan.lan:3111 $PKGS
+    docker run -t --rm --mount source=stableperl-opt,target=/opt/perlbrew runtime-builder:stable cpanm -M http://localcpan.lan:3111 $PKGS
 
 
 ## Exporting the perl runtime environment
 
 Use either method below:
 
-1. Build a new image that will copy the _/opt_ folder from this image. See **stableperl-rt**.
+1. Build a new image that will copy the _/opt/perlbrew_ folder from this image. See **stableperl-rt**.
 
 2. Export the _/opt/pearbrew_ folder to docker volume:
 
-    docker volume create stabelperl-opt
-    docker run -t --rm --mount source=stabelperl-opt-vol,target=/opt rt-builder:stable
+    docker volume create opt-perlbrew-stableperl
+    docker run -t --rm --mount source=opt-perlbrew-stableperl,target=/opt/perlbrew rt-builder:buster

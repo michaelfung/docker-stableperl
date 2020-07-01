@@ -3,7 +3,8 @@ use Mojolicious::Lite;
 $ENV{TZ} = 'Asia/Hong_Kong';
 POSIX::tzset;
 
-plugin SetUserGroup => {user => "nobody", group => "nogroup"};
+# enable if not using the 'USER' feature in Dockerfile
+# plugin SetUserGroup => {user => "nobody", group => "nogroup"};
 
 get '/' => {text => 'Sample Mojolicious App on Docker!'};
 
